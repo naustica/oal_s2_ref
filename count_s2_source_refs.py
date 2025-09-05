@@ -49,6 +49,6 @@ if __name__ == '__main__':
     create_counter_in_parallel(path_to_references='/scratch/users/haupka/semantic-scholar-snapshot/citations',
                                path_to_counter='/scratch/users/haupka/semantic-scholar-snapshot/counter')
     reduce_counter(path_to_counters='/scratch/users/haupka/semantic-scholar-snapshot/counter',
-                   output_file_path='/scratch/users/haupka/semantic-scholar-snapshot/')
+                   output_file_path='/scratch/users/haupka/semantic-scholar-snapshot')
 
     
