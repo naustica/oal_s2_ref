@@ -9,7 +9,6 @@ import uuid
 
 
 def create_counter(input_file_path: str, path_to_counter: str) -> None:
-    print(input_file_path)
     with open(f'{path_to_counter}/counter_{uuid.uuid4()}.pkl', 'wb') as outp:
         with open(input_file_path, 'r') as file:
             new_data = []
