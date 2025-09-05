@@ -1,4 +1,5 @@
 import json
+import gzip
 from collections import Counter
 from multiprocessing import Pool, cpu_count
 from operator import add
@@ -10,7 +11,7 @@ import uuid
 
 def create_counter(input_file_path: str, path_to_counter: str) -> None:
     with open(f'{path_to_counter}/counter_{uuid.uuid4()}.pkl', 'wb') as outp:
-        with open(input_file_path, 'r') as file:
+        with gzip.open(input_file_path, mode='r') as file:
             new_data = []
             
             for line in file:
@@ -28,7 +29,7 @@ def create_counter_in_parallel(path_to_references: str,
                                path_to_counter: str,
                                max_workers: int = cpu_count()):
 
-    list_with_files = glob.glob(f'{path_to_references}/*.jsonl')
+    list_with_files = glob.glob(f'{path_to_references}/*.jsonl.gz')
 
     with Pool(processes=max_workers) as pool:
         pool.starmap(create_counter, zip(list_with_files, [path_to_counter] * len(list_with_files)))
@@ -45,9 +46,9 @@ def reduce_counter(path_to_counters: str, output_file_path: str) -> None:
 
 
 if __name__ == '__main__':
-    create_counter_in_parallel(path_to_references='/Users/naustica/Desktop/oal_s2_ref/semantic_scholar_citations_sample_20250715',
-                               path_to_counter='/Users/naustica/Desktop/oal_s2_ref/')
-    reduce_counter(path_to_counters='/Users/naustica/Desktop/oal_s2_ref/',
-                   output_file_path='/Users/naustica/Desktop/oal_s2_ref/')
+    create_counter_in_parallel(path_to_references='/scratch/users/haupka/semantic-scholar-snapshot/citations',
+                               path_to_counter='/scratch/users/haupka/semantic-scholar-snapshot/counter')
+    reduce_counter(path_to_counters='/scratch/users/haupka/semantic-scholar-snapshot/counter',
+                   output_file_path='/scratch/users/haupka/semantic-scholar-snapshot/')
 
     
